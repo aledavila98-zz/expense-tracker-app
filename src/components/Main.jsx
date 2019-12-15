@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import CategoriesPayments from "./CategoriesPayments";
+import Categories from "./Categories";
+import Payments from "./Payments";
 
 class Main extends Component {
     
@@ -10,8 +12,13 @@ class Main extends Component {
         };
     }
     render () {
-        if (this.state.screen === 'CategoriesPayments')
+        const {screen} = this.state;
+        if (screen === 'CategoriesPayments')
             return <CategoriesPayments />;
+        else if (screen === 'Categories')
+            return <Categories />;
+        else if (screen === 'Payments')
+            return <Payments />;
     }
 }
 
