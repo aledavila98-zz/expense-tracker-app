@@ -48,20 +48,20 @@ const renderPayments = () => {
     const payments = [
         {
             id: 1,
-            paymentName: "Pago 1",
+            paymentNum: "Pago 1",
             observations: "---",
             amount: 200
         },
         {
             id: 2,
-            paymentName: "Pago 2",
+            paymentNum: "Pago 2",
             observations: "---",
             amount: 100
         }
     ];
     return payments.map(payment => {
         return <tr>
-            <td> <b> {payment.paymentName} </b> </td> 
+            <td> <b> {payment.paymentNum} </b> </td> 
             <td> {payment.observations} </td>  
             <td> {payment.amount.toFixed(2)} </td>
             <td>
@@ -82,6 +82,9 @@ class CategoriesPayments extends Component {
                     <Card.Body>
                         { renderCategories() }
                     </Card.Body>
+                    <Card.Footer>
+                        <Button variant="primary" block> + Add Category </Button>
+                    </Card.Footer>
                 </Card>
             </Accordion>
         </div>;
