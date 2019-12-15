@@ -4,6 +4,8 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons/faPencilAlt";
+import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 const renderCategories = () => {
@@ -20,7 +22,12 @@ const renderCategories = () => {
                     <Table hover>
                         <tbody>
                             { renderPayments() }  
-                        </tbody>  
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td style={{alignContent:"center"}}> <Button variant="secondary" > + Add Payment </Button> </td>
+                            </tr>
+                        </tfoot>  
                     </Table> 
                 </Card.Body>
             </Accordion.Collapse>
@@ -48,9 +55,8 @@ const renderPayments = () => {
             <td> {payment.amount.toFixed(2)} </td>
             <td>
                 <ButtonGroup>
-                    <Button> <FontAwesomeIcon icon="archive" /> </Button>
-                    <Button> <FontAwesomeIcon icon="pencil" /> </Button>
-                    <Button> <FontAwesomeIcon icon="trash" /> </Button>
+                    <Button variant="primary" size="sm"> <FontAwesomeIcon icon={faPencilAlt} /> </Button>
+                    <Button variant="danger" size="sm"> <FontAwesomeIcon icon={faTrash} /> </Button>
                 </ButtonGroup>     
             </td>
         </tr>;
