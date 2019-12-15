@@ -6,21 +6,21 @@ class TopBar extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-        console.log(props)
+        this.handleScreen = props.handleScreen.bind(this);
     }
 
     render() {
         return <div>
             <NavBar bg="dark" variant="dark" expand="lg">
-                <NavBar.Brand href="#" >
+                <NavBar.Brand href="#" onClick={(e) => this.handleScreen(0)}>
                     <b> Expense Tracker </b>
                 </NavBar.Brand>
                 <NavBar.Collapse>
                     <Nav className="mr-auto">
-                        <Nav.Link href="#" >
+                        <Nav.Link href="#" onClick={(e) => this.handleScreen(1)}>
                             Categories
                         </Nav.Link>
-                        <Nav.Link href="#" >
+                        <Nav.Link href="#" onClick={(e) => this.handleScreen(2)}>
                             Payments
                         </Nav.Link>
                     </Nav>
