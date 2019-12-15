@@ -24,8 +24,8 @@ const renderCategories = () => {
                             { renderPayments() }  
                         </tbody>
                         <tfoot>
-                            <tr>
-                                <td style={{alignContent:"center"}}> <Button variant="secondary" > + Add Payment </Button> </td>
+                            <tr> 
+                                <td colSpan="4"> <Button variant="light" block> + Add Payment </Button> </td>
                             </tr>
                         </tfoot>  
                     </Table> 
