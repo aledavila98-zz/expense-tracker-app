@@ -4,7 +4,35 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 
 class Categories extends Component {
+
+    fetchData = () => {
+
+    }
+
+    fillTable = (data) => {
+        return data.map(category => {
+            return <tr>
+                <td> {category.name} </td>
+                <td> {category.total} </td>
+                <td> {category.payCount} </td>
+            </tr>
+        })
+    }
+
     render() {
+        const categories = [
+            {
+                name: "Bikes",
+                total: 200,
+                payCount: 2
+            },
+            {
+                name: "Cars",
+                total: 100,
+                payCount: 3
+            }
+        ];
+
         return <div>
             <Card>
                 <Card.Header>
@@ -22,6 +50,9 @@ class Categories extends Component {
                                 <th>Payments Count</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            { this.fillTable(categories) }
+                        </tbody>
                     </Table>
                 </Card.Body>
             </Card>

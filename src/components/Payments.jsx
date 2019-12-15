@@ -4,7 +4,38 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 
 class Payments extends Component {
+
+    fetchData = () => {
+        
+    }
+
+    fillTable = (data) => {
+        return data.map(payment => {
+            return <tr>
+                <td> {payment.paymentNum} </td>
+                <td> {payment.observations} </td>
+                <td> {payment.amount} </td>
+                <td> {payment.category_name} </td>
+            </tr>
+        });
+    }
+
     render() {
+        const payments = [
+            {
+                paymentNum: "# 3",
+                observations: "---",
+                amount: 5,
+                category_name: "Bikes"
+            },
+            {
+                paymentNum: "# 4",
+                observations: "Trying here",
+                amount: 10,
+                category_name: "Car"
+            }
+        ];
+
         return <div>
             <Card>
                 <Card.Header>
@@ -22,7 +53,10 @@ class Payments extends Component {
                                 <th> Amount </th>
                                 <th> Category </th>    
                             </tr>      
-                        </thead>    
+                        </thead>
+                        <tbody>
+                            { this.fillTable(payments) }
+                        </tbody>    
                     </Table>  
                 </Card.Body>
             </Card>
