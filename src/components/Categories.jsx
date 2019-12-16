@@ -26,10 +26,13 @@ class Categories extends Component {
 
     fillTable = () => {
         return this.state.category_list.map(category => {
+            let payments_total = 0;
+            if (category.payments != null)
+                payments_total += category.payments.map(payment => payment.amount);
             return <tr>
                 <td> {category.name} </td>
-                <td> 0 </td>
-                <td> 0 </td>
+                <td> {payments_total} </td>
+                <td> {category.payments == null ? 0 : category.payments.length} </td>
             </tr>
         });
     }
