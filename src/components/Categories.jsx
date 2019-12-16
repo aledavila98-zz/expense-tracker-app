@@ -5,33 +5,30 @@ import Button from "react-bootstrap/Button";
 
 class Categories extends Component {
 
-    fetchData = () => {
-
+    fetchData = async () => {
+        return fetch('http://localhost:5000/api/Category', {
+            method: 'GET',
+            mode: "cors",
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
     }
 
     fillTable = (data) => {
         return data.map(category => {
             return <tr>
                 <td> {category.name} </td>
-                <td> {category.total} </td>
-                <td> {category.payCount} </td>
+                <td> 0 </td>
+                <td> 0 </td>
             </tr>
         })
     }
 
     render() {
-        const categories = [
-            {
-                name: "Bikes",
-                total: 200,
-                payCount: 2
-            },
-            {
-                name: "Cars",
-                total: 100,
-                payCount: 3
-            }
-        ];
+        const categories = this.fetchData();
 
         return <div>
             <Card>
@@ -42,7 +39,7 @@ class Categories extends Component {
                     </div>
                 </Card.Header>
                 <Card.Body>
-                    <Table>
+                    <Table hover>
                         <thead>
                             <tr>
                                 <th>Name</th>
