@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import PaymentModal from "./PaymentModal";
 import axios from "axios";
 
 class CategoriesPayments extends Component {

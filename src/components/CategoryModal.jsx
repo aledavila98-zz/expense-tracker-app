@@ -23,6 +23,13 @@ class CategoryModal extends Component {
         this.hideCategoryModal();
     }
 
+    componentWillReceiveProps(props)
+    {
+        this.setState({
+            isVisible: props.isVisible
+        });
+    }
+
     commitCategory = (op) => {
         if (op === 0)
         {

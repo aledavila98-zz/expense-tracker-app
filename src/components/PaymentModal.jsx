@@ -27,6 +27,13 @@ class PaymentModal extends Component {
         this.hidePaymentModal();
     }
 
+    componentWillReceiveProps(props)
+    {
+        this.setState({
+            isVisible: props.isVisible
+        });
+    }
+
     commitCategory = (op) => {
         if (op === 0) {
             const paymentNum = this.paymentNumText.current.value.trim();
