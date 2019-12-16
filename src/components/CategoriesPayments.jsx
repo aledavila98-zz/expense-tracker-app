@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import PaymentModal from "./PaymentModal";
 import axios from "axios";
 
 class CategoriesPayments extends Component {
@@ -16,6 +17,8 @@ class CategoriesPayments extends Component {
         this.state = {
             category_list: []
         }
+        this.openCategoryModal = props.openCategoryModal.bind(this);
+        this.openPaymentModal = props.openPaymentModal.bind(this);
     }
 
     fetchData = async () => {
@@ -41,7 +44,7 @@ class CategoriesPayments extends Component {
                             </tbody>
                             <tfoot>
                                 <tr> 
-                                    <td colSpan="4"> <Button variant="light" block> + Add Payment </Button> </td>
+                                    <td colSpan="4"> <Button variant="light" block onClick={(e) => this.openPaymentModal(0, category.id)}> + Add Payment </Button> </td>
                                 </tr>
                             </tfoot>  
                         </Table> 
@@ -57,8 +60,7 @@ class CategoriesPayments extends Component {
         } else {
             return payments.map(payment => {
                 return <tr>
-                    <td> <b> {payment.paymentNum} </b> </td> 
-                    <td> {payment.observations} </td>  
+                    <td> <b> {payment.paymentNum} </b> </td>  
                     <td> {payment.amount.toFixed(2)} </td>
                     <td>
                         <ButtonGroup>
@@ -79,7 +81,7 @@ class CategoriesPayments extends Component {
                         { this.renderCategories() }
                     </Card.Body>
                     <Card.Footer>
-                        <Button variant="primary" block> + Add Category </Button>
+                        <Button variant="primary" block onClick={ (e) => this.openCategoryModal(0) }> + Add Category </Button>
                     </Card.Footer>
                 </Card>
             </Accordion>

@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons/faPencilAlt";
+import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
 import axios from "axios";
 
 class Categories extends Component {
@@ -11,6 +15,7 @@ class Categories extends Component {
         this.state = {
             category_list: []
         }
+        this.openCategoryModal = props.openCategoryModal.bind(this);
     }
 
     fetchData = async () => {
@@ -33,6 +38,12 @@ class Categories extends Component {
                 <td> {category.name} </td>
                 <td> {payments_total} </td>
                 <td> {category.payments == null ? 0 : category.payments.length} </td>
+                <td>
+                    <ButtonGroup>
+                        <Button variant="primary" size="sm"> <FontAwesomeIcon icon={faPencilAlt} /> </Button>
+                        <Button variant="danger" size="sm"> <FontAwesomeIcon icon={faTrash} /> </Button>
+                    </ButtonGroup>     
+                </td>
             </tr>
         });
     }
@@ -43,7 +54,9 @@ class Categories extends Component {
                 <Card.Header>
                     <div className="row">
                         <div className="col-sm-8" style={{alignContent: "right"}}> <h3> Categories </h3> </div>
-                        <div className="col-sm-4" style={{alignItems: "right"}}> <Button variant="primary" size="sm">New category</Button> </div>
+                        <div className="col-sm-4" style={{alignItems: "right"}}> 
+                            <Button variant="primary" size="sm" onClick={(e) => this.openCategoryModal(0)}> New category </Button> 
+                        </div>
                     </div>
                 </Card.Header>
                 <Card.Body>
@@ -53,6 +66,7 @@ class Categories extends Component {
                                 <th>Name</th>
                                 <th>Expense Total</th>
                                 <th>Payments Count</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
