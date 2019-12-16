@@ -2,34 +2,39 @@ import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
 
 class Categories extends Component {
 
-    fetchData = async () => {
-        return fetch('http://localhost:5000/api/Category', {
-            method: 'GET',
-            mode: "cors",
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+    constructor(props) {
+        super(props);
+        this.state = {
+            category_list: []
+        }
     }
 
-    fillTable = (data) => {
-        return data.map(category => {
+    fetchData = async () => {
+        return axios.get("http://localhost:5000/api/Category", {
+            responseType: "json"
+        }).then(res => res.data)
+        .catch(err => console.log(err) );
+    }
+
+    async componentDidMount() {
+        this.setState({ category_list: await this.fetchData() })
+    }
+
+    fillTable = () => {
+        return this.state.category_list.map(category => {
             return <tr>
                 <td> {category.name} </td>
                 <td> 0 </td>
                 <td> 0 </td>
             </tr>
-        })
+        });
     }
 
     render() {
-        const categories = this.fetchData();
-
         return <div>
             <Card>
                 <Card.Header>
@@ -48,7 +53,7 @@ class Categories extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            { this.fillTable(categories) }
+                            { this.fillTable() }
                         </tbody>
                     </Table>
                 </Card.Body>
