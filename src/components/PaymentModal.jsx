@@ -10,8 +10,6 @@ class PaymentModal extends Component {
         this.state = { 
             isVisible: props.isVisible,
             categoryId: props.categoryId,
-            paymentId: props.hasOwnProperty("paymentId") ? props.paymentId : "",
-            crud: props.crud 
         };
 
         this.paymentNumText = React.createRef();
@@ -30,29 +28,32 @@ class PaymentModal extends Component {
     componentWillReceiveProps(props)
     {
         this.setState({
-            isVisible: props.isVisible
+            isVisible: props.isVisible,
+            categoryId: props.categoryId
         });
     }
 
-    commitCategory = (op) => {
-        if (op === 0) {
-            const paymentNum = this.paymentNumText.current.value.trim();
-            const paymentAmount = this.paymentAmount.current.value;
-            if (paymentNum.length > 0 && paymentAmount > 0) {
-                axios.post("http://localhost:5000/api/Payment",
-                { 
-                    paymentNum: paymentNum,
-                    paymentAmount: paymentAmount,
-                    categoryId: this.state.categoryId
-                },
-                { 
-                    responseType: "json" 
-                }
-            )
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
+    commitCategory = () => {
+        const paymentNum = this.paymentNumText.current.value.trim();
+        const paymentAmount = this.paymentAmount.current.value;
+        if (paymentNum.length > 0 && paymentAmount > 0) {
+            axios.post("http://localhost:5000/api/Payment",
+            { 
+                paymentNum: paymentNum,
+                paymentAmount: paymentAmount,
+                categoryId: this.state.categoryId
+            },
+            { 
+                responseType: "json" 
             }
+            )
+            .then(res => {
+                console.log(res);
+                window.location.reload();
+            })
+            .catch(err => console.log(err));
         }
+
         this.setState({
             isVisible: false
         });
@@ -60,12 +61,10 @@ class PaymentModal extends Component {
     }
 
     render() {
-        const title = this.state.crud === 0 ? 'Create Payment' : 'Update Payment';
-        const btnText = this.state.crud === 0 ? 'Create' : 'Update';
         return <div>
             <Modal show={this.state.isVisible} onHide={this.handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title> {title}  </Modal.Title>
+                    <Modal.Title> Create Payment </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -80,7 +79,7 @@ class PaymentModal extends Component {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" size="sm" onClick={(e) => this.commitCategory(this.state.crud)}> {btnText} </Button>
+                    <Button variant="primary" size="sm" onClick={this.commitCategory}> Create </Button>
                     <Button variant="danger" size="sm" onClick={this.handleClose}> Discard </Button>
                 </Modal.Footer>
             </Modal>

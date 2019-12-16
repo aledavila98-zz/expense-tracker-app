@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
+
+const swal = withReactContent(Swal);
 
 class Categories extends Component {
 
@@ -29,6 +31,19 @@ class Categories extends Component {
         this.setState({ category_list: await this.fetchData() })
     }
 
+    deleteCategoryEvent = async (id) => {
+        swal.fire({
+            title: "Delete Category",
+            text: "Are you sure?",
+            showConfirmButton: true
+        }).then(e => this.deleteCategory(id));
+    }
+
+    deleteCategory = async (id) => {
+        await axios.delete("http://localhost:5000/api/Category/" + id);
+        this.setState({category_list: await this.fetchData()});
+    }
+
     fillTable = () => {
         return this.state.category_list.map(category => {
             let payments_total = 0;
@@ -38,12 +53,7 @@ class Categories extends Component {
                 <td> {category.name} </td>
                 <td> {payments_total} </td>
                 <td> {category.payments == null ? 0 : category.payments.length} </td>
-                <td>
-                    <ButtonGroup>
-                        <Button variant="primary" size="sm"> <FontAwesomeIcon icon={faPencilAlt} /> </Button>
-                        <Button variant="danger" size="sm"> <FontAwesomeIcon icon={faTrash} /> </Button>
-                    </ButtonGroup>     
-                </td>
+                <td> <Button variant="danger" size="sm" onClick={(e) => this.deleteCategoryEvent(category.id)}> <FontAwesomeIcon icon={faTrash} /> </Button> </td>
             </tr>
         });
     }

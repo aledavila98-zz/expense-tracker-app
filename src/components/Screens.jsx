@@ -11,7 +11,6 @@ class Screens extends Component {
         super(props);
         this.state = {
             Screen: props.Screen,
-            crud: 2,
             categoryIsVisible: false,
             paymentIsVisible: false
         };
@@ -24,10 +23,9 @@ class Screens extends Component {
         })
     }
 
-    openCategoryModal = (crud) => {
+    openCategoryModal = () => {
         this.setState({
-            categoryIsVisible: true,
-            crud: crud
+            categoryIsVisible: true
         });
     }
 
@@ -37,10 +35,9 @@ class Screens extends Component {
         });
     }
 
-    openPaymentModal = (crud, categoryId) => {
+    openPaymentModal = (categoryId) => {
         this.setState({
             paymentIsVisible: true,
-            crud: crud,
             categoryId: categoryId
         });
     }
@@ -52,22 +49,22 @@ class Screens extends Component {
     }
 
     render () {
-        const {Screen, categoryIsVisible, paymentIsVisible, crud, categoryId} = this.state;
+        const {Screen, categoryIsVisible, paymentIsVisible, categoryId} = this.state;
         if (Screen === 'CategoriesPayments') 
             return <div> 
                 <CategoriesPayments openCategoryModal={this.openCategoryModal} openPaymentModal={this.openPaymentModal} />
-                <CategoryModal isVisible={categoryIsVisible} crud={crud} hideCategoryModal={this.hideCategoryModal} />
-                <PaymentModal isVisible={paymentIsVisible} crud={crud} hidePaymentModal={this.hidePaymentModal} categoryId={categoryId} />    
+                <CategoryModal isVisible={categoryIsVisible} hideCategoryModal={this.hideCategoryModal} />
+                <PaymentModal isVisible={paymentIsVisible} hidePaymentModal={this.hidePaymentModal} categoryId={categoryId} />    
             </div>;
         else if (Screen === 'Categories')
             return <div> 
                 <Categories openCategoryModal={this.openCategoryModal} />
-                <CategoryModal isVisible={categoryIsVisible} crud={crud} hideCategoryModal={this.hideCategoryModal} />  
+                <CategoryModal isVisible={categoryIsVisible} hideCategoryModal={this.hideCategoryModal} />  
             </div>;
         else if (Screen === 'Payments')
             return <div> 
                 <Payments openPaymentModal={this.openPaymentModal} />
-                <PaymentModal isVisible={paymentIsVisible} crud={crud} hidePaymentModal={this.hidePaymentModal} categoryId={categoryId} /> 
+                <PaymentModal isVisible={paymentIsVisible} hidePaymentModal={this.hidePaymentModal} categoryId={categoryId} /> 
             </div>;        
     }
 }

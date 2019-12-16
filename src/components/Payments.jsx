@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
+
+const swal = withReactContent(Swal);
 
 class Payments extends Component {
 
@@ -28,18 +30,26 @@ class Payments extends Component {
         this.setState({ payments_list: await this.fetchData() });
     }
 
+    deletePaymentEvent = async (id) => {
+        swal.fire({
+            title: "Delete Payment",
+            text: "Are you sure?",
+            showConfirmButton: true
+        }).then(e => this.deletePayment(id));
+    }
+
+    deletePayment = async (id) => {
+        await axios.delete("http://localhost:5000/api/Payment/" + id);
+        this.setState({payments_list: await this.fetchData()});
+    }
+
     fillTable = () => {
         return this.state.payments_list.map(payment => {
             return <tr>
                 <td> {payment.paymentNum} </td>
                 <td> {payment.amount} </td>
                 <td> --- </td>
-                <td>
-                    <ButtonGroup>
-                        <Button variant="primary" size="sm"> <FontAwesomeIcon icon={faPencilAlt} /> </Button>
-                        <Button variant="danger" size="sm"> <FontAwesomeIcon icon={faTrash} /> </Button>
-                    </ButtonGroup>     
-                </td>
+                <td> <Button variant="danger" size="sm" onClick={(e) => this.deletePaymentEvent(payment.id)}> <FontAwesomeIcon icon={faTrash} /> </Button> </td>
             </tr>
         });
     }
@@ -51,7 +61,7 @@ class Payments extends Component {
                     <h3> Payments </h3>
                 </Card.Header>
                 <Card.Body>
-                    <Table>
+                    <Table hover>
                         <thead>
                             <tr>
                                 <th> Payment Number </th>

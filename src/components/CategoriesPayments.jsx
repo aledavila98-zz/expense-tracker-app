@@ -4,9 +4,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 import axios from "axios";
 
 class CategoriesPayments extends Component {
@@ -33,8 +31,13 @@ class CategoriesPayments extends Component {
 
     renderCategories = () => {
         return this.state.category_list.map(category => {
+            let total_category = 0;
+            if (category.payments !== null)
+                total_category += category.payments.map(payment => payment.amount);
             return <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey={category.id}> {category.name} </Accordion.Toggle>
+                <Accordion.Toggle as={Button} variant="link" eventKey={category.id}>
+                    {category.name} - {total_category} 
+                </Accordion.Toggle>
                 <Accordion.Collapse eventKey={category.id}>
                     <Card.Body>
                         <Table hover>
@@ -43,7 +46,7 @@ class CategoriesPayments extends Component {
                             </tbody>
                             <tfoot>
                                 <tr> 
-                                    <td colSpan="4"> <Button variant="light" block onClick={(e) => this.openPaymentModal(0, category.id)}> + Add Payment </Button> </td>
+                                    <td colSpan="4"> <Button variant="light" block onClick={(e) => this.openPaymentModal(category.id)}> + Add Payment </Button> </td>
                                 </tr>
                             </tfoot>  
                         </Table> 
@@ -62,10 +65,7 @@ class CategoriesPayments extends Component {
                     <td> <b> {payment.paymentNum} </b> </td>  
                     <td> {payment.amount.toFixed(2)} </td>
                     <td>
-                        <ButtonGroup>
-                            <Button variant="primary" size="sm"> <FontAwesomeIcon icon={faPencilAlt} /> </Button>
-                            <Button variant="danger" size="sm"> <FontAwesomeIcon icon={faTrash} /> </Button>
-                        </ButtonGroup>     
+                        <Button variant="danger" size="sm"> <FontAwesomeIcon icon={faTrash} /> </Button>     
                     </td>
                 </tr>;
             });
@@ -80,7 +80,7 @@ class CategoriesPayments extends Component {
                         { this.renderCategories() }
                     </Card.Body>
                     <Card.Footer>
-                        <Button variant="primary" block onClick={ (e) => this.openCategoryModal(0) }> + Add Category </Button>
+                        <Button variant="primary" block onClick={this.openCategoryModal}> + Add Category </Button>
                     </Card.Footer>
                 </Card>
             </Accordion>
