@@ -40,7 +40,7 @@ class PaymentModal extends Component {
             axios.post("http://localhost:5000/api/Payment",
             { 
                 paymentNum: paymentNum,
-                paymentAmount: paymentAmount,
+                amount: paymentAmount,
                 categoryId: this.state.categoryId
             },
             { 

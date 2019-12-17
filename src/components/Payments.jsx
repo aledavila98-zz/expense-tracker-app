@@ -34,8 +34,12 @@ class Payments extends Component {
         swal.fire({
             title: "Delete Payment",
             text: "Are you sure?",
-            showConfirmButton: true
-        }).then(e => this.deletePayment(id));
+            showConfirmButton: true,
+            showCancelButton: true
+        }).then(e => {
+            if (e.value)
+                this.deletePayment(id)
+        });
     }
 
     deletePayment = async (id) => {
@@ -48,7 +52,7 @@ class Payments extends Component {
             return <tr>
                 <td> {payment.paymentNum} </td>
                 <td> {payment.amount} </td>
-                <td> --- </td>
+                <td> {payment.category.name} </td>
                 <td> <Button variant="danger" size="sm" onClick={(e) => this.deletePaymentEvent(payment.id)}> <FontAwesomeIcon icon={faTrash} /> </Button> </td>
             </tr>
         });
@@ -61,7 +65,7 @@ class Payments extends Component {
                     <h3> Payments </h3>
                 </Card.Header>
                 <Card.Body>
-                    <Table hover>
+                    <Table striped hover>
                         <thead>
                             <tr>
                                 <th> Payment Number </th>

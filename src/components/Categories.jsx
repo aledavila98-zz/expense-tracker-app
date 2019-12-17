@@ -35,8 +35,12 @@ class Categories extends Component {
         swal.fire({
             title: "Delete Category",
             text: "Are you sure?",
-            showConfirmButton: true
-        }).then(e => this.deleteCategory(id));
+            showConfirmButton: true,
+            showCancelButton: true
+        }).then(e => {
+            if (e.value)
+                this.deleteCategory(id)
+        });
     }
 
     deleteCategory = async (id) => {
@@ -48,10 +52,10 @@ class Categories extends Component {
         return this.state.category_list.map(category => {
             let payments_total = 0;
             if (category.payments != null)
-                payments_total += category.payments.map(payment => payment.amount);
+                category.payments.map(payment => payments_total += payment.amount);
             return <tr>
                 <td> {category.name} </td>
-                <td> {payments_total} </td>
+                <td> {payments_total.toFixed(2)} </td>
                 <td> {category.payments == null ? 0 : category.payments.length} </td>
                 <td> <Button variant="danger" size="sm" onClick={(e) => this.deleteCategoryEvent(category.id)}> <FontAwesomeIcon icon={faTrash} /> </Button> </td>
             </tr>
@@ -70,7 +74,7 @@ class Categories extends Component {
                     </div>
                 </Card.Header>
                 <Card.Body>
-                    <Table hover>
+                    <Table striped hover>
                         <thead>
                             <tr>
                                 <th>Name</th>
