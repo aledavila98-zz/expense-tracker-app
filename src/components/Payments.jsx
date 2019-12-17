@@ -48,16 +48,18 @@ class Payments extends Component {
     }
 
     fillTable = () => {
-        if (this.state.payments_list === null)
+        if (this.state.payments_list == null)
             return <tr></tr>;
-        return this.state.payments_list.map(payment => {
-            return <tr>
-                <td> {payment.paymentNum} </td>
-                <td> {payment.amount} </td>
-                <td> {payment.category.name} </td>
-                <td> <Button variant="danger" size="sm" onClick={(e) => this.deletePaymentEvent(payment.id)}> <FontAwesomeIcon icon={faTrash} /> </Button> </td>
-            </tr>
-        });
+        else {
+            return this.state.payments_list.map(payment => {
+                return <tr>
+                    <td> {payment.paymentNum} </td>
+                    <td> {payment.amount} </td>
+                    <td> {payment.category.name} </td>
+                    <td> <Button variant="danger" size="sm" onClick={(e) => this.deletePaymentEvent(payment.id)}> <FontAwesomeIcon icon={faTrash} /> </Button> </td>
+                </tr>
+            });
+        }
     }
 
     render() {
