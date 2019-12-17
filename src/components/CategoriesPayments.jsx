@@ -5,7 +5,13 @@ import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
+const swal = withReactContent(Swal);
 
 class CategoriesPayments extends Component {
 
@@ -26,21 +32,68 @@ class CategoriesPayments extends Component {
     }
 
     async componentDidMount() {
-        this.setState({ category_list: await this.fetchData() })
+        this.setState({ category_list: await this.fetchData() });
+    }
+
+    componentDidUpdate() {
+        let max_value = 0;
+        let max_name = '';
+        this.state.category_list.forEach(category => {
+            let category_total = 0;
+            category.payments.map(p => category_total += p.amount);
+            if (category_total > max_value) {
+                max_value = category_total;
+                max_name = category.name;
+            }
+        });
+        
+        swal.fire({
+            title: "Watch out!",
+            text: "You're spending too much on " + max_name
+        })
+    }
+
+    deletePaymentEvent = async (id) => {
+        swal.fire({
+            title: "Delete Payment",
+            text: "Are you sure?",
+            showConfirmButton: true,
+            showCancelButton: true
+        }).then(e => {
+            if (e.value) {
+                this.deletePayment(id);
+            }
+        });
+    }
+
+    deletePayment = async (id) => {
+        await axios.delete("http://localhost:5000/api/Payment/" + id);
+        this.setState({category_list: await this.fetchData()});
     }
 
     renderCategories = () => {
-        return this.state.category_list.map(category => {
+        let max_total = 0;
+        return this.state.category_list.map( (category, index) => {
             let total_category = 0;
             if (category.payments !== null)
-                total_category += category.payments.map(payment => payment.amount);
-            return <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey={category.id}>
-                    {category.name} - {total_category} 
+                category.payments.map(payment => total_category += payment.amount);
+            
+            if (total_category > max_total) {
+                max_total = total_category;
+            }
+
+            return <Card> 
+                <Accordion.Toggle as={Card.Header} variant="link" eventKey={category.id}>
+                    <Row>
+                        <Col xs={8} style={{alignContent:"center"}}> 
+                            <span style={{fontSize:18, color:""}}> <b> {category.name} </b> </span> 
+                        </Col> 
+                        <Col xs={4}> <span style={{color:"red"}}> {total_category.toFixed(2)} </span> </Col> 
+                    </Row>
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey={category.id}>
                     <Card.Body>
-                        <Table hover>
+                        <Table size="sm" responsive hover>
                             <tbody>
                                 { this.renderPayments(category.payments) }  
                             </tbody>
@@ -52,7 +105,7 @@ class CategoriesPayments extends Component {
                         </Table> 
                     </Card.Body>
                 </Accordion.Collapse>
-            </Card.Header>;
+            </Card>;
         })
     }
     
@@ -65,7 +118,7 @@ class CategoriesPayments extends Component {
                     <td> <b> {payment.paymentNum} </b> </td>  
                     <td> {payment.amount.toFixed(2)} </td>
                     <td>
-                        <Button variant="danger" size="sm"> <FontAwesomeIcon icon={faTrash} /> </Button>     
+                        <Button variant="danger" size="sm" onClick={(e) => this.deletePaymentEvent(payment.id)}> <FontAwesomeIcon icon={faTrash} /> </Button>     
                     </td>
                 </tr>;
             });
