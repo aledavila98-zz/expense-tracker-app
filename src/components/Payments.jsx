@@ -48,6 +48,8 @@ class Payments extends Component {
     }
 
     fillTable = () => {
+        if (this.state.payments_list.length === 0)
+            return <tr></tr>;
         return this.state.payments_list.map(payment => {
             return <tr>
                 <td> {payment.paymentNum} </td>

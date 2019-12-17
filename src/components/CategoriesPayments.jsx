@@ -38,19 +38,21 @@ class CategoriesPayments extends Component {
     componentDidUpdate() {
         let max_value = 0;
         let max_name = '';
-        this.state.category_list.forEach(category => {
-            let category_total = 0;
-            category.payments.map(p => category_total += p.amount);
-            if (category_total > max_value) {
-                max_value = category_total;
-                max_name = category.name;
-            }
-        });
-        
-        swal.fire({
-            title: "Watch out!",
-            text: "You're spending too much on " + max_name
-        })
+        if (this.state.category_list.length> 0) {
+            this.state.category_list.forEach(category => {
+                let category_total = 0;
+                category.payments.map(p => category_total += p.amount);
+                if (category_total > max_value) {
+                    max_value = category_total;
+                    max_name = category.name;
+                }
+            });
+            
+            swal.fire({
+                title: "Watch out!",
+                text: "You're spending too much on " + max_name
+            })
+        }
     }
 
     deletePaymentEvent = async (id) => {
@@ -73,6 +75,9 @@ class CategoriesPayments extends Component {
 
     renderCategories = () => {
         let max_total = 0;
+        if (this.state.category_list.length === 0) {
+            return <Card></Card>;
+        }
         return this.state.category_list.map( (category, index) => {
             let total_category = 0;
             if (category.payments !== null)
