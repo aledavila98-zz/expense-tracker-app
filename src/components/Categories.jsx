@@ -49,19 +49,21 @@ class Categories extends Component {
     }
 
     fillTable = () => {
-        if (this.state.category_list === null)
+        if (this.state.category_list == null) 
             return <tr></tr>;
-        return this.state.category_list.map(category => {
-            let payments_total = 0;
-            if (category.payments != null)
-                category.payments.map(payment => payments_total += payment.amount);
-            return <tr>
-                <td> {category.name} </td>
-                <td> {payments_total.toFixed(2)} </td>
-                <td> {category.payments == null ? 0 : category.payments.length} </td>
-                <td> <Button variant="danger" size="sm" onClick={(e) => this.deleteCategoryEvent(category.id)}> <FontAwesomeIcon icon={faTrash} /> </Button> </td>
-            </tr>
-        });
+        else {
+            return this.state.category_list.map(category => {
+                let payments_total = 0;
+                if (category.payments != null)
+                    category.payments.map(payment => payments_total += payment.amount);
+                return <tr>
+                    <td> {category.name} </td>
+                    <td> {payments_total.toFixed(2)} </td>
+                    <td> {category.payments == null ? 0 : category.payments.length} </td>
+                    <td> <Button variant="danger" size="sm" onClick={(e) => this.deleteCategoryEvent(category.id)}> <FontAwesomeIcon icon={faTrash} /> </Button> </td>
+                </tr>
+            });
+        }
     }
 
     render() {

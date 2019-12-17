@@ -75,43 +75,44 @@ class CategoriesPayments extends Component {
 
     renderCategories = () => {
         let max_total = 0;
-        if (this.state.category_list === null) {
+        if (this.state.category_list == null) 
             return <Card></Card>;
-        }
-        return this.state.category_list.map( (category, index) => {
-            let total_category = 0;
-            if (category.payments !== null)
-                category.payments.map(payment => total_category += payment.amount);
-            
-            if (total_category > max_total) {
-                max_total = total_category;
-            }
+        else {
+            return this.state.category_list.map( (category, index) => {
+                let total_category = 0;
+                if (category.payments !== null)
+                    category.payments.map(payment => total_category += payment.amount);
+                
+                if (total_category > max_total) {
+                    max_total = total_category;
+                }
 
-            return <Card> 
-                <Accordion.Toggle as={Card.Header} variant="link" eventKey={category.id}>
-                    <Row>
-                        <Col xs={8} style={{alignContent:"center"}}> 
-                            <span style={{fontSize:18, color:""}}> <b> {category.name} </b> </span> 
-                        </Col> 
-                        <Col xs={4}> <span style={{color:"red"}}> {total_category.toFixed(2)} </span> </Col> 
-                    </Row>
-                </Accordion.Toggle>
-                <Accordion.Collapse eventKey={category.id}>
-                    <Card.Body>
-                        <Table size="sm" responsive hover>
-                            <tbody>
-                                { this.renderPayments(category.payments) }  
-                            </tbody>
-                            <tfoot>
-                                <tr> 
-                                    <td colSpan="4"> <Button variant="light" block onClick={(e) => this.openPaymentModal(category.id)}> + Add Payment </Button> </td>
-                                </tr>
-                            </tfoot>  
-                        </Table> 
-                    </Card.Body>
-                </Accordion.Collapse>
-            </Card>;
-        })
+                return <Card> 
+                    <Accordion.Toggle as={Card.Header} variant="link" eventKey={category.id}>
+                        <Row>
+                            <Col xs={8} style={{alignContent:"center"}}> 
+                                <span style={{fontSize:18, color:""}}> <b> {category.name} </b> </span> 
+                            </Col> 
+                            <Col xs={4}> <span style={{color:"red"}}> {total_category.toFixed(2)} </span> </Col> 
+                        </Row>
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey={category.id}>
+                        <Card.Body>
+                            <Table size="sm" responsive hover>
+                                <tbody>
+                                    { this.renderPayments(category.payments) }  
+                                </tbody>
+                                <tfoot>
+                                    <tr> 
+                                        <td colSpan="4"> <Button variant="light" block onClick={(e) => this.openPaymentModal(category.id)}> + Add Payment </Button> </td>
+                                    </tr>
+                                </tfoot>  
+                            </Table> 
+                        </Card.Body>
+                    </Accordion.Collapse>
+                </Card>;
+            })
+        }
     }
     
     renderPayments = (payments) => {
