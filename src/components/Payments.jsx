@@ -48,7 +48,7 @@ class Payments extends Component {
     }
 
     fillTable = () => {
-        if (this.state.payments_list.length === 0)
+        if (this.state.payments_list === null)
             return <tr></tr>;
         return this.state.payments_list.map(payment => {
             return <tr>
