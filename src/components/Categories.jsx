@@ -49,7 +49,7 @@ class Categories extends Component {
     }
 
     fillTable = () => {
-        if (this.state.category_list.length === 0)
+        if (this.state.category_list === null)
             return <tr></tr>;
         return this.state.category_list.map(category => {
             let payments_total = 0;

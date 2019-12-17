@@ -38,7 +38,7 @@ class CategoriesPayments extends Component {
     componentDidUpdate() {
         let max_value = 0;
         let max_name = '';
-        if (this.state.category_list.length> 0) {
+        if (this.state.category_list === null) {
             this.state.category_list.forEach(category => {
                 let category_total = 0;
                 category.payments.map(p => category_total += p.amount);
@@ -75,7 +75,7 @@ class CategoriesPayments extends Component {
 
     renderCategories = () => {
         let max_total = 0;
-        if (this.state.category_list.length === 0) {
+        if (this.state.category_list === null) {
             return <Card></Card>;
         }
         return this.state.category_list.map( (category, index) => {
