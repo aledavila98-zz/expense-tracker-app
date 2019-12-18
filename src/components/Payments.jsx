@@ -20,7 +20,7 @@ class Payments extends Component {
     }
 
     fetchData = async () => {
-        return axios.get("http://localhost:5000/api/Payment", {
+        return axios.get("https://dev-expense-track.azurewebsites.net/api/Payment", {
             responseType: "json"
         }).then(res => res.data)
         .catch(err => console.log(err) );
@@ -43,7 +43,7 @@ class Payments extends Component {
     }
 
     deletePayment = async (id) => {
-        await axios.delete("http://localhost:5000/api/Payment/" + id);
+        await axios.delete("https://dev-expense-track.azurewebsites.net/api/Payment/" + id);
         this.setState({payments_list: await this.fetchData()});
     }
 

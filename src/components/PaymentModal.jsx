@@ -37,7 +37,7 @@ class PaymentModal extends Component {
         const paymentNum = this.paymentNumText.current.value.trim();
         const paymentAmount = this.paymentAmount.current.value;
         if (paymentNum.length > 0 && paymentAmount > 0) {
-            axios.post("http://localhost:5000/api/Payment",
+            axios.post("https://dev-expense-track.azurewebsites.net/api/Payment",
             { 
                 paymentNum: paymentNum,
                 amount: paymentAmount,

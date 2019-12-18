@@ -25,7 +25,7 @@ class CategoriesPayments extends Component {
     }
 
     fetchData = async () => {
-        return axios.get("http://localhost:5000/api/Category", {
+        return axios.get("https://dev-expense-track.azurewebsites.net/api/Category", {
             responseType: "json"
         }).then(res => res.data)
         .catch(err => console.log(err) );
@@ -69,7 +69,7 @@ class CategoriesPayments extends Component {
     }
 
     deletePayment = async (id) => {
-        await axios.delete("http://localhost:5000/api/Payment/" + id);
+        await axios.delete("https://dev-expense-track.azurewebsites.net/api/Payment/" + id);
         this.setState({category_list: await this.fetchData()});
     }
 
