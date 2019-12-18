@@ -21,7 +21,7 @@ class Categories extends Component {
     }
 
     fetchData = async () => {
-        return axios.get("http://localhost:5000/api/Category", {
+        return axios.get("https://dev-expense-track.azurewebsites.net/api/Category", {
             responseType: "json"
         }).then(res => res.data)
         .catch(err => console.log(err) );
@@ -44,7 +44,7 @@ class Categories extends Component {
     }
 
     deleteCategory = async (id) => {
-        await axios.delete("http://localhost:5000/api/Category/" + id);
+        await axios.delete("https://dev-expense-track.azurewebsites.net/api/Category/" + id);
         this.setState({category_list: await this.fetchData()});
     }
 

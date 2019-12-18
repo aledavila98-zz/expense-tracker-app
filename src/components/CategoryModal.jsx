@@ -32,12 +32,13 @@ class CategoryModal extends Component {
         const name = this.nameInput.current.value.trim();
         
         if (name.length > 0) {
-            axios.post("http://localhost:5000/api/Category",
+            axios.post("https://dev-expense-track.azurewebsites.net/api/Category",
                 { 
                     name: name 
                 },
                 { 
-                    responseType: "json" 
+                    responseType: "json",
+                     
                 }
             )
             .then(res => { 
